@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "27367159696",
+    "project_id": "xclonejpgt",
+    "storage_bucket": "xclonejpgt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27367159696:android:546a07cc3137a198cca515",
+        "android_client_info": {
+          "package_name": "com.x_rn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAlcqsQZifd7qKtfVrBbxjPpliYHUhFm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
