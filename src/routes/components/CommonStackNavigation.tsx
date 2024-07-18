@@ -25,16 +25,16 @@ const CommonStackNavigation = ({}: Props) => {
         <Stack.Navigator
           initialRouteName="login"
           screenOptions={({navigation}) => ({
-            // contentStyle: {
-            //   backgroundColor: colors[theme].WHITE,
-            // },
-            // headerTitleStyle: [
-            //   Pretendard.SemiBold,
-            //   {
-            //     fontSize: 18,
-            //     color: colors[theme].BLACK,
-            //   },
-            // ],
+            contentStyle: {
+              backgroundColor: colors['000000'],
+            },
+            headerTitleStyle: [
+              Pretendard.Medium,
+              {
+                fontSize: 16,
+                color: colors.FFFFFF,
+              },
+            ],
             headerTitleAlign: 'center',
             // headerLeft: () => (
             //   <TouchableOpacity
