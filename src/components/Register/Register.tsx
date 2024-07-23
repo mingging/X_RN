@@ -6,6 +6,7 @@ import { hasNotch } from 'react-native-device-info';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
+import AuthNumberPad from './containers/AuthNumberPad';
 
 // type Props = {
 //     modalVisible: boolean;
@@ -233,40 +234,68 @@ const Register = () => {
                         >도움이 필요하신가요?</Text>
                     </TouchableOpacity>
                 </View>
-            </KeyboardAwareScrollView>
-            <View
-                style={{
-                    paddingHorizontal: 20,
-                    paddingBottom: hasNotch() ? 30 : 12,
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                }}>
-                <Text
-                    style={[
-                        Pretendard.SemiBold,
-                        {
-                            fontSize: 14,
-                            color: colors['262626'],
-                            textAlign: 'center',
-                        },
-                    ]}>
-                    © 2024 X Corp.
-                </Text>
-            </View>
-            <Modal
-                isVisible={isModalVisible}
-                onSwipeComplete={toggleModal}
-                swipeDirection={['down']}
-                style={styles.modal}
-            >
-                <View style={styles.contentContainer}>
-                    <Text style={styles.contentTitle}>Bottom Sheet Content</Text>
-                    <Text>This is the content of the bottom sheet.</Text>
-                    <Button title="Close" onPress={toggleModal} />
+                <View
+                    style={{
+                        paddingHorizontal: 20,
+                        paddingBottom: hasNotch() ? 30 : 12,
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                    }}>
+                    <Text
+                        style={[
+                            Pretendard.SemiBold,
+                            {
+                                fontSize: 14,
+                                color: colors['262626'],
+                                textAlign: 'center',
+                            },
+                        ]}>
+                        © 2024 X Corp.
+                    </Text>
                 </View>
-            </Modal>
+                <Modal
+                    isVisible={isModalVisible}
+                    onSwipeComplete={toggleModal}
+                    swipeDirection={['down']}
+                    style={{
+                        justifyContent: 'flex-end',
+                        margin: 0,
+                    }}
+                >
+                    <View style={{
+                        backgroundColor: colors['111111'],
+                        padding: 20,
+                        height: 296
+                    }}>
+                        <Text style={[
+                            Pretendard.SemiBold,
+                            {
+                                fontSize: 18,
+                                color: colors.FFFFFF,
+                                marginBottom: 30
+                            }
+                        ]}>인증코드를 입력해주세요</Text>
+                        <AuthNumberPad />
+                        <TouchableOpacity style={{
+                            backgroundColor: colors.FFFFFF,
+                            height: 48,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: 30
+                        }}>
+                            <Text style={[
+                                Pretendard.SemiBold,
+                                {
+                                    fontSize: 16,
+                                    color: colors[262626],
+                                },
+                            ]}>인증하기</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+            </KeyboardAwareScrollView>
         </View>
     );
 };
