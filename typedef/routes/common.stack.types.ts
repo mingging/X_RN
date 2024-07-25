@@ -5,6 +5,8 @@ import {
 
 export type CommonStackParamsListTypes = {
   login: undefined;
+  register: undefined;
+  email: undefined;
 };
 
 export type CommonStackNavigationTypes =
