@@ -20,10 +20,15 @@ const LoginContainer = (props: Props) => {
     setPassword(text);
   }, []);
 
+  const onRegisterPressed = useCallback(() => {
+    navigation.navigate('register');
+  }, [navigation]);
+
   return (
     <Login
       onEmailTextChanged={onEmailTextChanged}
       onPasswordTextChanged={onPasswordTextChanged}
+      onRegisterPressed={onRegisterPressed}
     />
   );
 };

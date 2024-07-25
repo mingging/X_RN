@@ -2,6 +2,7 @@ import colors from '@assets/colors';
 import Pretendard from '@assets/fonts';
 import images from '@assets/images';
 import LoginContainer from '@components/Login/containers/LoginContainer';
+import EmailContainer from '@components/Register/containers/EmailContainer';
 import RegisterContainer from '@components/Register/containers/RegisterContainer';
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -25,7 +26,7 @@ const CommonStackNavigation = ({ }: Props) => {
       }}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="register"
+          initialRouteName="login"
           screenOptions={({ navigation }) => ({
             contentStyle: {
               backgroundColor: colors['000000'],
@@ -73,6 +74,15 @@ const CommonStackNavigation = ({ }: Props) => {
             options={{
               // headerLeft: undefined,
               title: '회원가입',
+              // headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="email"
+            component={EmailContainer}
+            options={{
+              // headerLeft: undefined,
+              title: '이메일 인증',
               // headerShown: false,
             }}
           />

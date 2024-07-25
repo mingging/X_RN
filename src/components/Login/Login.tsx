@@ -9,9 +9,10 @@ import {hasNotch} from 'react-native-device-info';
 type Props = {
   onEmailTextChanged: (text: string) => void;
   onPasswordTextChanged: (text: string) => void;
+  onRegisterPressed: () => void;
 };
 
-const Login = ({onEmailTextChanged, onPasswordTextChanged}: Props) => {
+const Login = ({onEmailTextChanged, onPasswordTextChanged, onRegisterPressed}: Props) => {
   return (
     <View
       style={{
@@ -110,7 +111,7 @@ const Login = ({onEmailTextChanged, onPasswordTextChanged}: Props) => {
             justifyContent: 'center',
             gap: 14,
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onRegisterPressed}>
             <Text
               style={[
                 Pretendard.SemiBold,

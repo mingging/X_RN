@@ -1,26 +1,29 @@
 import colors from '@assets/colors';
 import Pretendard from '@assets/fonts';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { hasNotch } from 'react-native-device-info';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
-import AuthNumberPad from './containers/AuthNumberPad';
+import CertificationCodePad from './components/CertificationCodePad';
+import CertificationCodePadContainer from './containers/CetrificationCodePadContainer';
 
-// type Props = {
-//     modalVisible: boolean;
-//     toggleModal: () => void;
-// };
+type Props = {
+    isPressedSendCertificationCode: boolean;
+    onSendCertificationCodePressed: () => void;
+    onEmailAuthenticationPressed: () => void;
+    onCertificationCodeChanged: (code: string) => void;
+    onAuthenticatePressed: () => void;
+};
 
-const Register = () => {
-
-
-    const [isModalVisible, setModalVisible] = useState(false);
-
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
-    }
+const Register = ({
+    onAuthenticatePressed,
+    isPressedSendCertificationCode,
+    onSendCertificationCodePressed,
+    onEmailAuthenticationPressed,
+    onCertificationCodeChanged
+}: Props) => {
 
     return (
         <View style={{ flex: 1 }}>
@@ -114,7 +117,7 @@ const Register = () => {
                         />
                     </View>
                     <TouchableOpacity
-                        onPress={toggleModal}
+                        onPress={onSendCertificationCodePressed}
                         style={{
                             marginTop: 10,
                             backgroundColor: colors[262626],
@@ -197,6 +200,7 @@ const Register = () => {
                         placeholderTextColor={colors['666666']}
                     />
                     <TouchableOpacity
+                        onPress={onEmailAuthenticationPressed}
                         style={{
                             marginTop: 10,
                             backgroundColor: colors[262626],
@@ -234,30 +238,9 @@ const Register = () => {
                         >도움이 필요하신가요?</Text>
                     </TouchableOpacity>
                 </View>
-                <View
-                    style={{
-                        paddingHorizontal: 20,
-                        paddingBottom: hasNotch() ? 30 : 12,
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                    }}>
-                    <Text
-                        style={[
-                            Pretendard.SemiBold,
-                            {
-                                fontSize: 14,
-                                color: colors['262626'],
-                                textAlign: 'center',
-                            },
-                        ]}>
-                        © 2024 X Corp.
-                    </Text>
-                </View>
                 <Modal
-                    isVisible={isModalVisible}
-                    onSwipeComplete={toggleModal}
+                    isVisible={isPressedSendCertificationCode}
+                    onSwipeComplete={onSendCertificationCodePressed}
                     swipeDirection={['down']}
                     style={{
                         justifyContent: 'flex-end',
@@ -277,25 +260,55 @@ const Register = () => {
                                 marginBottom: 30
                             }
                         ]}>인증코드를 입력해주세요</Text>
-                        <AuthNumberPad />
-                        <TouchableOpacity style={{
-                            backgroundColor: colors.FFFFFF,
-                            height: 48,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginTop: 30
-                        }}>
-                            <Text style={[
-                                Pretendard.SemiBold,
-                                {
-                                    fontSize: 16,
-                                    color: colors[262626],
-                                },
-                            ]}>인증하기</Text>
+                        <CertificationCodePadContainer
+                            onCertificationCodeChanged={onCertificationCodeChanged}
+                        />
+                        <Button title="인증하기" onPress={onAuthenticatePressed} />
+                        <TouchableOpacity
+                            onPress={onAuthenticatePressed}
+                        >
+                            <View style={{
+                                marginTop: 30,
+                                backgroundColor: colors.FFFFFF,
+                                paddingHorizontal: 14,
+                                height: 48,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={[
+                                    Pretendard.SemiBold,
+                                    {
+                                        fontSize: 16,
+                                        color: colors[262626],
+                                    },
+                                ]}>인증하기</Text>
+                            </View>
+
                         </TouchableOpacity>
                     </View>
                 </Modal>
             </KeyboardAwareScrollView>
+            <View
+                style={{
+                    paddingHorizontal: 20,
+                    paddingBottom: hasNotch() ? 30 : 12,
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                }}>
+                <Text
+                    style={[
+                        Pretendard.SemiBold,
+                        {
+                            fontSize: 14,
+                            color: colors['262626'],
+                            textAlign: 'center',
+                        },
+                    ]}>
+                    © 2024 X Corp.
+                </Text>
+            </View>
         </View>
     );
 };
