@@ -7,6 +7,7 @@ export type CommonStackParamsListTypes = {
   login: undefined;
   register: undefined;
   email: undefined;
+  sendPasswordReset: undefined;
 };
 
 export type CommonStackNavigationTypes =
