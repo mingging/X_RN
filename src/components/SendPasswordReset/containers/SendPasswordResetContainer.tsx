@@ -5,10 +5,14 @@ import {emailRegEx} from '@lib/factory';
 import Fauth from '@react-native-firebase/auth';
 import {FirebaseErrorTypes} from '@typedef/lib/network.core.types';
 import {Alert} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {CommonStackNavigationTypes} from '@typedef/routes/common.stack.types';
 
 type Props = {};
 
 const SendPasswordResetContainer = (props: Props) => {
+  const navigation = useNavigation<CommonStackNavigationTypes>();
+
   // 이메일
   const [email, setEmail] = useState('');
 
@@ -31,8 +35,12 @@ const SendPasswordResetContainer = (props: Props) => {
     try {
       // 비밀번호 재설정 이메일 발송
       await Fauth().sendPasswordResetEmail(email);
-      // 성공 메시지 표시
-      Alert.alert('성공', '비밀번호 재설정 이메일이 발송되었습니다.');
+
+      navigation.navigate('sendPasswordResetComplete', {
+        data: {
+          email,
+        },
+      });
     } catch (error) {
       // Firebase 에러 추출
       const {code, message} = error as FirebaseErrorTypes;

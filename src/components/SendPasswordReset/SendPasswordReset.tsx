@@ -12,6 +12,7 @@ import {
   KeyboardAwareFlatList,
   KeyboardAwareScrollView,
 } from 'react-native-keyboard-aware-scroll-view';
+import {hasNotch} from 'react-native-device-info';
 
 type Props = {
   isEmailValidated: boolean;
@@ -143,6 +144,27 @@ const SendPasswordReset = ({
           </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
+      <View
+        style={{
+          paddingHorizontal: 20,
+          paddingBottom: hasNotch() ? 30 : 12,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+        <Text
+          style={[
+            Pretendard.SemiBold,
+            {
+              fontSize: 14,
+              color: colors['262626'],
+              textAlign: 'center',
+            },
+          ]}>
+          © 2024 X Corp.
+        </Text>
+      </View>
     </SafeAreaView>
   );
 };

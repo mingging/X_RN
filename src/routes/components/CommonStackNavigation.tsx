@@ -5,6 +5,7 @@ import LoginContainer from '@components/Login/containers/LoginContainer';
 import EmailContainer from '@components/Register/containers/EmailContainer';
 import RegisterContainer from '@components/Register/containers/RegisterContainer';
 import SendPasswordResetContainer from '@components/SendPasswordReset/containers/SendPasswordResetContainer';
+import SendPasswordResetCompleteContainer from '@components/SendPasswordResetComplete/containers/SendPasswordResetCompleteContainer';
 
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -92,6 +93,13 @@ const CommonStackNavigation = ({}: Props) => {
             component={SendPasswordResetContainer}
             options={{
               title: '비밀번호 재설정',
+            }}
+          />
+          <Stack.Screen
+            name="sendPasswordResetComplete"
+            component={SendPasswordResetCompleteContainer}
+            options={{
+              title: '전송완료',
             }}
           />
         </Stack.Navigator>
