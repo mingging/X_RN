@@ -7,7 +7,11 @@ import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
 import CertificationCodePad from './components/CertificationCodePad';
+<<<<<<< HEAD
 import CertificationCodePadContainer from './containers/CertificationCodeContainer';
+=======
+import CertificationCodePadContainer from './containers/CetrificationCodePadContainer';
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
 import CountryCodeModalContainer from './containers/CountryCodeModalContainer';
 import { RegisterFormType } from './containers/RegisterContainer';
 
@@ -23,14 +27,20 @@ type Props = {
     onSelectedCountryCode: (code: string) => void;
     selectedCountryCode: string;
 
+<<<<<<< HEAD
     onEmailTextChange: (text: string) => void;
     onPasswordTextChange: (text: string) => void;
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
     onPhoneNumberTextChange: (text: string) => void;
     onNickNameTextChange: (text: string) => void;
     onNameTextChange: (text: string) => void;
     onBirthTextChange: (text: string) => void;
 
+<<<<<<< HEAD
     checkCompletedRegisterForm: (() => boolean);
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
     registerForm: RegisterFormType;
 };
 
@@ -38,7 +48,11 @@ const Register = ({
     onAuthenticatePressed,
     isPressedSendCertificationCode,
     onSendCertificationCodePressed,
+<<<<<<< HEAD
     onEmailVerificationPressed,
+=======
+    onEmailAuthenticationPressed,
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
     onCertificationCodeChanged,
 
     isShowCountryCodeModal,
@@ -46,14 +60,20 @@ const Register = ({
     onSelectedCountryCode,
     selectedCountryCode,
 
+<<<<<<< HEAD
     onEmailTextChange,
     onPasswordTextChange,
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
     onPhoneNumberTextChange,
     onNickNameTextChange,
     onNameTextChange,
     onBirthTextChange,
 
+<<<<<<< HEAD
     checkCompletedRegisterForm,
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
     registerForm
 }: Props) => {
     return (
@@ -273,18 +293,25 @@ const Register = ({
                         placeholderTextColor={colors['666666']}
                     />
                     <TouchableOpacity
+<<<<<<< HEAD
                         onPress={onEmailVerificationPressed}
+=======
+                        onPress={onEmailAuthenticationPressed}
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
                         style={[{
                             marginTop: 10,
                             paddingHorizontal: 14,
                             height: 48,
                             justifyContent: 'center',
                             alignItems: 'center'
+<<<<<<< HEAD
                         },
                         checkCompletedRegisterForm() ? {
                            backgroundColor: colors.FFFFFF
                         } : {
                             backgroundColor: colors[262626],
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
                         }]}>
                         <Text
                             style={[

@@ -7,12 +7,16 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export type RegisterFormType = {
     email: string,
+<<<<<<< HEAD
     password: string,
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
     phoneNumber: string,
     nickName: string,
     name: string,
     birth: string
 }
+<<<<<<< HEAD
 
 // 이메일 유효성 검사
 export const isValidEmail = (email: string): boolean => {
@@ -25,6 +29,8 @@ export const isValidPassword = (password: string): boolean => {
     // 비밀번호가 6자 이상인지 확인합니다.
     return password.length >= 6;
 };
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
 
 const RegisterContainer = () => {
     const navigation = useNavigation<CommonStackNavigationTypes>();
@@ -41,7 +47,10 @@ const RegisterContainer = () => {
     // 입력 폼
     const [registerForm, setRegisterForm] = useState<RegisterFormType>({
         email: '',
+<<<<<<< HEAD
         password: '',
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
         phoneNumber: '',
         nickName: '',
         name: '',
@@ -97,6 +106,7 @@ const RegisterContainer = () => {
         }
     }, [registerForm.phoneNumber])
 
+<<<<<<< HEAD
     // 이메일 입력 시
     const onEmailTextChange = useCallback((text: string) => {
         console.log(text)
@@ -236,6 +246,58 @@ const RegisterContainer = () => {
 
         return true
     }, [registerForm])
+=======
+    // 입력한 내용 세이브
+    const onEmailAuthenticationPressed = useCallback(() => {
+        console.log('registerForm', registerForm);
+        navigation.navigate('email');
+    }, [navigation]);
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
+
+    // 국가 코드 모달 오픈
+    const onShowCountryModal = useCallback(() => {
+        console.log(isShowCountryCodeModal);
+        setIsShowCountryCodeModal(!isShowCountryCodeModal)
+    }, [isShowCountryCodeModal])
+
+    // 선택한 국가 코드 가져오기
+    const onSelectedCountryCode = useCallback((code: string) => {
+        console.log('countryCode : ', code)
+        setSelectedCountryCode(code);
+    }, [selectedCountryCode])
+
+    // 전화번호 입력 시
+    const onPhoneNumberTextChange = useCallback((text: string) => {
+        console.log(text)
+        setRegisterForm((prevState) => ({
+            ...prevState,
+            phoneNumber: text
+        }))
+    }, [registerForm])
+
+    // 닉네임 입력
+    const onNickNameTextChange = useCallback((text: string) => {
+        setRegisterForm((prevState) => ({
+            ...prevState,
+            nickName: text
+        }))
+    }, [registerForm])
+
+    // 성명 입력
+    const onNameTextChange = useCallback((text: string) => {
+        setRegisterForm((prevState) => ({
+            ...prevState,
+            name: text
+        }))
+    }, [registerForm])
+
+    // 생년월일 입력
+    const onBirthTextChange = useCallback((text: string) => {
+        setRegisterForm((prevState) => ({
+            ...prevState,
+            birth: text
+        }))
+    }, [registerForm])
 
     return (
         <Register
@@ -250,14 +312,20 @@ const RegisterContainer = () => {
             onSelectedCountryCode={onSelectedCountryCode}
             selectedCountryCode={selectedCountryCode}
 
+<<<<<<< HEAD
             onEmailTextChange={onEmailTextChange}
             onPasswordTextChange={onPasswordTextChange}
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
             onPhoneNumberTextChange={onPhoneNumberTextChange}
             onNickNameTextChange={onNickNameTextChange}
             onNameTextChange={onNameTextChange}
             onBirthTextChange={onBirthTextChange}
 
+<<<<<<< HEAD
             checkCompletedRegisterForm={checkCompletedRegisterForm}
+=======
+>>>>>>> f26ad22 (feat: 회원가입 기능 구현)
             registerForm={registerForm}
         />
     )
