@@ -6,7 +6,13 @@ import {
 export type CommonStackParamsListTypes = {
   login: undefined;
   register: undefined;
-  email: undefined;
+  emailVerification: {
+    data: {
+      email: string;
+      password: string;
+    }
+  };
+  registerComplete: undefined;
   sendPasswordReset: undefined;
   sendPasswordResetComplete: {
     data: {
@@ -22,4 +28,10 @@ export type CommonStackNavigationTypes =
 export type SendPasswordResetCompleteStackParamTypes = NativeStackScreenProps<
   CommonStackParamsListTypes,
   'sendPasswordResetComplete'
+>;
+
+// 이메일 인증 화면
+export type EmailVerificationStackParamTypes = NativeStackScreenProps<
+CommonStackParamsListTypes,
+  'emailVerification'
 >;

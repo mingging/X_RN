@@ -14,7 +14,7 @@ import { RegisterFormType } from './containers/RegisterContainer';
 type Props = {
     isPressedSendCertificationCode: boolean;
     onSendCertificationCodePressed: () => void;
-    onEmailAuthenticationPressed: () => void;
+    onEmailVerificationPressed: () => void;
     onCertificationCodeChanged: (code: string) => void;
     onAuthenticatePressed: () => void;
 
@@ -38,7 +38,7 @@ const Register = ({
     onAuthenticatePressed,
     isPressedSendCertificationCode,
     onSendCertificationCodePressed,
-    onEmailAuthenticationPressed,
+    onEmailVerificationPressed,
     onCertificationCodeChanged,
 
     isShowCountryCodeModal,
@@ -273,7 +273,7 @@ const Register = ({
                         placeholderTextColor={colors['666666']}
                     />
                     <TouchableOpacity
-                        onPress={onEmailAuthenticationPressed}
+                        onPress={onEmailVerificationPressed}
                         style={[{
                             marginTop: 10,
                             paddingHorizontal: 14,

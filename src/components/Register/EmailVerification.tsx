@@ -3,7 +3,15 @@ import Pretendard from "@assets/fonts";
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 
-const Email = () => {
+type Props = {
+    email: string;
+    onCompletedEmailVerificationPressed: (() => void);
+}
+
+const Email = ({
+    email,
+    onCompletedEmailVerificationPressed
+}: Props) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flex: 3, justifyContent: 'center' }}>
@@ -32,7 +40,7 @@ const Email = () => {
                             marginTop: 15
                         }
                     ]}
-                >alytics2302@gmail.com
+                >{email}
                     <Text
                         style={[
                             Pretendard.SemiBold,
@@ -47,7 +55,7 @@ const Email = () => {
             </View>
             <View style={{ flex: 2, justifyContent: 'center' }}>
                 <TouchableOpacity
-                // onPress={handleGetOtp}
+                    onPress={onCompletedEmailVerificationPressed}
                 >
                     <View style={{
                         marginTop: 30,

@@ -160,13 +160,16 @@ const RegisterContainer = () => {
     }, [registerForm])
 
     // 입력한 내용 세이브
-    const onEmailAuthenticationPressed = useCallback(() => {
+    const onEmailVerificationPressed = useCallback(() => {
         console.log('registerForm', registerForm);
-
         // 이메일 인증
         registerUser(registerForm);
-
-        // navigation.navigate('email');
+        navigation.navigate('emailVerification', {
+            data: {
+                email: registerForm.email,
+                password: registerForm.password
+            }
+        });
     }, [navigation, registerForm]);
 
     const registerUser = useCallback(async (registerForm: RegisterFormType) => {
@@ -199,7 +202,7 @@ const RegisterContainer = () => {
         if (registerForm.email === '') {
             console.log('email false')
             return false;
-        } 
+        }
 
         // 비밀번호 체크
         if (registerForm.password === '') {
@@ -230,7 +233,7 @@ const RegisterContainer = () => {
             console.log('birth false')
             return false;
         }
-        
+
         return true
     }, [registerForm])
 
@@ -239,7 +242,7 @@ const RegisterContainer = () => {
             isPressedSendCertificationCode={isPressedSendCertificationCode}
             onAuthenticatePressed={onAuthenticatePressed}
             onSendCertificationCodePressed={onSendCertificationCodePressed}
-            onEmailAuthenticationPressed={onEmailAuthenticationPressed}
+            onEmailVerificationPressed={onEmailVerificationPressed}
             onCertificationCodeChanged={onCertificationCodeChanged}
 
             isShowCountryCodeModal={isShowCountryCodeModal}
