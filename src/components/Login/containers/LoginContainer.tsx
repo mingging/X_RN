@@ -24,11 +24,17 @@ const LoginContainer = (props: Props) => {
     navigation.navigate('register');
   }, [navigation]);
 
+  // 비밀번호 재설정 화면으로 이동
+  const onSendPasswordResetPressed = useCallback(() => {
+    navigation.navigate('sendPasswordReset');
+  }, [navigation]);
+
   return (
     <Login
       onEmailTextChanged={onEmailTextChanged}
       onPasswordTextChanged={onPasswordTextChanged}
       onRegisterPressed={onRegisterPressed}
+      onSendPasswordResetPressed={onSendPasswordResetPressed}
     />
   );
 };

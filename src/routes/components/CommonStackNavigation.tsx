@@ -4,13 +4,15 @@ import images from '@assets/images';
 import LoginContainer from '@components/Login/containers/LoginContainer';
 import EmailContainer from '@components/Register/containers/EmailContainer';
 import RegisterContainer from '@components/Register/containers/RegisterContainer';
+import SendPasswordResetContainer from '@components/SendPasswordReset/containers/SendPasswordResetContainer';
+import SendPasswordResetCompleteContainer from '@components/SendPasswordResetComplete/containers/SendPasswordResetCompleteContainer';
 
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import { CommonStackParamsListTypes } from '@typedef/routes/common.stack.types';
+import {CommonStackParamsListTypes} from '@typedef/routes/common.stack.types';
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, Appearance } from 'react-native';
+import {View, Text, TouchableOpacity, Image, Appearance} from 'react-native';
 
 const Stack = createNativeStackNavigator<CommonStackParamsListTypes>();
 
@@ -18,7 +20,7 @@ type Props = {
   // cartCount: number;
 };
 
-const CommonStackNavigation = ({ }: Props) => {
+const CommonStackNavigation = ({}: Props) => {
   return (
     <View
       style={{
@@ -27,7 +29,7 @@ const CommonStackNavigation = ({ }: Props) => {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="login"
-          screenOptions={({ navigation }) => ({
+          screenOptions={({navigation}) => ({
             contentStyle: {
               backgroundColor: colors['000000'],
             },
@@ -84,6 +86,20 @@ const CommonStackNavigation = ({ }: Props) => {
               // headerLeft: undefined,
               title: '이메일 인증',
               // headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="sendPasswordReset"
+            component={SendPasswordResetContainer}
+            options={{
+              title: '비밀번호 재설정',
+            }}
+          />
+          <Stack.Screen
+            name="sendPasswordResetComplete"
+            component={SendPasswordResetCompleteContainer}
+            options={{
+              title: '전송완료',
             }}
           />
         </Stack.Navigator>
