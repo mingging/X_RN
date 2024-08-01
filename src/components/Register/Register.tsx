@@ -7,7 +7,7 @@ import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
 import CertificationCodePad from './components/CertificationCodePad';
-import CertificationCodePadContainer from './containers/CetrificationCodePadContainer';
+import CertificationCodePadContainer from './containers/CertificationCodeContainer';
 import CountryCodeModalContainer from './containers/CountryCodeModalContainer';
 import { RegisterFormType } from './containers/RegisterContainer';
 
@@ -23,11 +23,14 @@ type Props = {
     onSelectedCountryCode: (code: string) => void;
     selectedCountryCode: string;
 
+    onEmailTextChange: (text: string) => void;
+    onPasswordTextChange: (text: string) => void;
     onPhoneNumberTextChange: (text: string) => void;
     onNickNameTextChange: (text: string) => void;
     onNameTextChange: (text: string) => void;
     onBirthTextChange: (text: string) => void;
 
+    checkCompletedRegisterForm: (() => boolean);
     registerForm: RegisterFormType;
 };
 
@@ -43,11 +46,14 @@ const Register = ({
     onSelectedCountryCode,
     selectedCountryCode,
 
+    onEmailTextChange,
+    onPasswordTextChange,
     onPhoneNumberTextChange,
     onNickNameTextChange,
     onNameTextChange,
     onBirthTextChange,
 
+    checkCompletedRegisterForm,
     registerForm
 }: Props) => {
     return (
@@ -91,7 +97,7 @@ const Register = ({
                 <View>
                     {/* 이메일 */}
                     <TextInput
-                        // onChangeText={onEmailTextChanged}
+                        onChangeText={onEmailTextChange}
                         style={{
                             marginTop: 20,
                             backgroundColor: colors['141414'],
@@ -102,6 +108,23 @@ const Register = ({
                         placeholder="이메일"
                         keyboardType="email-address"
                         placeholderTextColor={colors['666666']}
+                        autoCapitalize='none'
+                    />
+                    {/* 비밀번호 */}
+                    <TextInput
+                        onChangeText={onPasswordTextChange}
+                        style={{
+                            marginTop: 10,
+                            backgroundColor: colors['141414'],
+                            color: colors.FFFFFF,
+                            paddingHorizontal: 14,
+                            height: 48,
+                        }}
+                        placeholder="비밀번호"
+                        keyboardType="email-address"
+                        placeholderTextColor={colors['666666']}
+                        autoCapitalize='none'
+                        secureTextEntry={true}
                     />
                     <View style={{ flexDirection: 'row', marginTop: 10 }}>
                         <TouchableOpacity onPress={onShowCountryModal}>
@@ -194,20 +217,29 @@ const Register = ({
                             placeholderTextColor={colors['666666']}
                         />
                         <TouchableOpacity
-                            style={{
-                                backgroundColor: colors[262626],
+                            disabled={registerForm.nickName.length > 0 ? false : true}
+                            style={[{
                                 paddingHorizontal: 14,
                                 height: 48,
                                 justifyContent: 'center',
                                 alignItems: 'center'
-                            }}>
+                            },
+                            registerForm.nickName.length > 0 ? {
+                                backgroundColor: colors.FFFFFF
+                            } : {
+                                backgroundColor: colors[262626],
+                            }]}>
                             <Text
                                 style={[
                                     Pretendard.Regular,
                                     {
                                         fontSize: 16,
-                                        color: colors[666666],
                                     },
+                                    registerForm.nickName.length > 0 ? {
+                                        color: colors[262626]
+                                    } : {
+                                        color: colors[666666],
+                                    }
                                 ]}
                             >중복확인</Text>
                         </TouchableOpacity>
@@ -244,21 +276,32 @@ const Register = ({
                         onPress={onEmailAuthenticationPressed}
                         style={[{
                             marginTop: 10,
-                            backgroundColor: colors[262626],
                             paddingHorizontal: 14,
                             height: 48,
                             justifyContent: 'center',
                             alignItems: 'center'
+                        },
+                        checkCompletedRegisterForm() ? {
+                           backgroundColor: colors.FFFFFF
+                        } : {
+                            backgroundColor: colors[262626],
                         }]}>
                         <Text
                             style={[
                                 Pretendard.Regular,
                                 {
                                     fontSize: 16,
-                                    color: colors[666666],
                                 },
-                            ]}
-                        >가입에 필요한 정보를 입력해주세요!</Text>
+                                ,
+                                checkCompletedRegisterForm() ? {
+                                    color: colors[262626]
+                                } : {
+                                    color: colors[666666],
+                                }]}
+                        >
+                            {checkCompletedRegisterForm() ? '가입완료 하기' : '가입에 필요한 정보를 입력해주세요!'}
+
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
@@ -327,7 +370,7 @@ const Register = ({
                         </TouchableOpacity>
                     </View>
                 </Modal>
-            </KeyboardAwareScrollView>
+            </KeyboardAwareScrollView >
             <View
                 style={{
                     paddingHorizontal: 20,
@@ -349,7 +392,7 @@ const Register = ({
                     © 2024 X Corp.
                 </Text>
             </View>
-        </View>
+        </View >
     );
 };
 

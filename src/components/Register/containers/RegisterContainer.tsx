@@ -7,11 +7,24 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export type RegisterFormType = {
     email: string,
+    password: string,
     phoneNumber: string,
     nickName: string,
     name: string,
     birth: string
 }
+
+// 이메일 유효성 검사
+export const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
+// 비밀번호 유효성 검사
+export const isValidPassword = (password: string): boolean => {
+    // 비밀번호가 6자 이상인지 확인합니다.
+    return password.length >= 6;
+};
 
 const RegisterContainer = () => {
     const navigation = useNavigation<CommonStackNavigationTypes>();
@@ -28,6 +41,7 @@ const RegisterContainer = () => {
     // 입력 폼
     const [registerForm, setRegisterForm] = useState<RegisterFormType>({
         email: '',
+        password: '',
         phoneNumber: '',
         nickName: '',
         name: '',
@@ -83,11 +97,22 @@ const RegisterContainer = () => {
         }
     }, [registerForm.phoneNumber])
 
-    // 입력한 내용 세이브
-    const onEmailAuthenticationPressed = useCallback(() => {
-        console.log('registerForm', registerForm);
-        navigation.navigate('email');
-    }, [navigation]);
+    // 이메일 입력 시
+    const onEmailTextChange = useCallback((text: string) => {
+        console.log(text)
+        setRegisterForm((prevState) => ({
+            ...prevState,
+            email: isValidEmail(text) ? text : ''
+        }))
+    }, [registerForm.email])
+
+    const onPasswordTextChange = useCallback((text: string) => {
+        console.log(text)
+        setRegisterForm((prevState) => ({
+            ...prevState,
+            password: isValidPassword(text) ? text : ''
+        }))
+    }, [registerForm.password])
 
     // 국가 코드 모달 오픈
     const onShowCountryModal = useCallback(() => {
@@ -134,6 +159,81 @@ const RegisterContainer = () => {
         }))
     }, [registerForm])
 
+    // 입력한 내용 세이브
+    const onEmailAuthenticationPressed = useCallback(() => {
+        console.log('registerForm', registerForm);
+
+        // 이메일 인증
+        registerUser(registerForm);
+
+        // navigation.navigate('email');
+    }, [navigation, registerForm]);
+
+    const registerUser = useCallback(async (registerForm: RegisterFormType) => {
+        try {
+            const userCredential = await auth().createUserWithEmailAndPassword(registerForm.email, registerForm.password);
+            await sendEmailVerification();
+            return userCredential.user;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }, [registerForm])
+
+    const sendEmailVerification = useCallback(async () => {
+        try {
+            const user = auth().currentUser;
+            if (user) {
+                await user.sendEmailVerification();
+                console.log('이메일 인증')
+            }
+        } catch (error) {
+            console.log('error 이메일 인증 오류', error);
+            throw error;
+        }
+    }, [registerForm])
+
+    // 모든 정보 입력 완료했는지 체크
+    const checkCompletedRegisterForm = useCallback((): boolean => {
+        // 이메일 체크 
+        if (registerForm.email === '') {
+            console.log('email false')
+            return false;
+        } 
+
+        // 비밀번호 체크
+        if (registerForm.password === '') {
+            console.log('password false')
+            return false;
+        }
+
+        // 전화번호 체크
+        if (registerForm.phoneNumber === '') {
+            console.log('phoneNumber false')
+            return false;
+        }
+
+        // 닉네임 체크
+        if (registerForm.nickName === '') {
+            console.log('nickName false')
+            return false;
+        }
+
+        // 성명 체크
+        if (registerForm.name === '') {
+            console.log('name false')
+            return false;
+        }
+
+        // 생년월일 체크
+        if (registerForm.birth === '') {
+            console.log('birth false')
+            return false;
+        }
+        
+        return true
+    }, [registerForm])
+
     return (
         <Register
             isPressedSendCertificationCode={isPressedSendCertificationCode}
@@ -147,11 +247,14 @@ const RegisterContainer = () => {
             onSelectedCountryCode={onSelectedCountryCode}
             selectedCountryCode={selectedCountryCode}
 
+            onEmailTextChange={onEmailTextChange}
+            onPasswordTextChange={onPasswordTextChange}
             onPhoneNumberTextChange={onPhoneNumberTextChange}
             onNickNameTextChange={onNickNameTextChange}
             onNameTextChange={onNameTextChange}
             onBirthTextChange={onBirthTextChange}
 
+            checkCompletedRegisterForm={checkCompletedRegisterForm}
             registerForm={registerForm}
         />
     )
