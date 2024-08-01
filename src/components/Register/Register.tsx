@@ -7,7 +7,9 @@ import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
 import CertificationCodePad from './components/CertificationCodePad';
-import CertificationCodePadContainer from './containers/CetrificationCodePadContainer';
+import CertificationCodePadContainer from './containers/CertificationCodeContainer';
+import CountryCodeModalContainer from './containers/CountryCodeModalContainer';
+import { RegisterFormType } from './containers/RegisterContainer';
 
 type Props = {
     isPressedSendCertificationCode: boolean;
@@ -15,6 +17,21 @@ type Props = {
     onEmailAuthenticationPressed: () => void;
     onCertificationCodeChanged: (code: string) => void;
     onAuthenticatePressed: () => void;
+
+    isShowCountryCodeModal: boolean;
+    onShowCountryModal: () => void;
+    onSelectedCountryCode: (code: string) => void;
+    selectedCountryCode: string;
+
+    onEmailTextChange: (text: string) => void;
+    onPasswordTextChange: (text: string) => void;
+    onPhoneNumberTextChange: (text: string) => void;
+    onNickNameTextChange: (text: string) => void;
+    onNameTextChange: (text: string) => void;
+    onBirthTextChange: (text: string) => void;
+
+    checkCompletedRegisterForm: (() => boolean);
+    registerForm: RegisterFormType;
 };
 
 const Register = ({
@@ -22,9 +39,23 @@ const Register = ({
     isPressedSendCertificationCode,
     onSendCertificationCodePressed,
     onEmailAuthenticationPressed,
-    onCertificationCodeChanged
-}: Props) => {
+    onCertificationCodeChanged,
 
+    isShowCountryCodeModal,
+    onShowCountryModal,
+    onSelectedCountryCode,
+    selectedCountryCode,
+
+    onEmailTextChange,
+    onPasswordTextChange,
+    onPhoneNumberTextChange,
+    onNickNameTextChange,
+    onNameTextChange,
+    onBirthTextChange,
+
+    checkCompletedRegisterForm,
+    registerForm
+}: Props) => {
     return (
         <View style={{ flex: 1 }}>
             <KeyboardAwareScrollView
@@ -66,7 +97,7 @@ const Register = ({
                 <View>
                     {/* 이메일 */}
                     <TextInput
-                        // onChangeText={onEmailTextChanged}
+                        onChangeText={onEmailTextChange}
                         style={{
                             marginTop: 20,
                             backgroundColor: colors['141414'],
@@ -77,9 +108,26 @@ const Register = ({
                         placeholder="이메일"
                         keyboardType="email-address"
                         placeholderTextColor={colors['666666']}
+                        autoCapitalize='none'
+                    />
+                    {/* 비밀번호 */}
+                    <TextInput
+                        onChangeText={onPasswordTextChange}
+                        style={{
+                            marginTop: 10,
+                            backgroundColor: colors['141414'],
+                            color: colors.FFFFFF,
+                            paddingHorizontal: 14,
+                            height: 48,
+                        }}
+                        placeholder="비밀번호"
+                        keyboardType="email-address"
+                        placeholderTextColor={colors['666666']}
+                        autoCapitalize='none'
+                        secureTextEntry={true}
                     />
                     <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={onShowCountryModal}>
                             <View
                                 style={{
                                     backgroundColor: colors['141414'],
@@ -98,12 +146,18 @@ const Register = ({
                                         color: colors.FFFFFF,
                                         lineHeight: 24,
                                     }
-                                ]}>+82</Text>
+                                ]}>{selectedCountryCode}</Text>
                             </View>
                         </TouchableOpacity>
+                        {/* 국가코드 */}
+                        <CountryCodeModalContainer
+                            isShowCountryCodeModal={isShowCountryCodeModal}
+                            onShowCountryModal={onShowCountryModal}
+                            onSelectedCountryCode={onSelectedCountryCode}
+                        />
                         {/* 휴대폰 번호 */}
                         <TextInput
-                            // onChangeText={onEmailTextChanged}
+                            onChangeText={(text) => onPhoneNumberTextChange(text)}
                             style={{
                                 backgroundColor: colors['141414'],
                                 color: colors.FFFFFF,
@@ -118,26 +172,36 @@ const Register = ({
                     </View>
                     <TouchableOpacity
                         onPress={onSendCertificationCodePressed}
-                        style={{
+                        disabled={registerForm.phoneNumber.length > 0 ? false : true}
+                        style={[{
                             marginTop: 10,
                             backgroundColor: colors[262626],
                             paddingHorizontal: 14,
                             height: 48,
                             justifyContent: 'center',
                             alignItems: 'center'
-                        }}>
+                        }, registerForm.phoneNumber.length > 0 ? {
+                            backgroundColor: colors.FFFFFF
+                        } : {
+                            backgroundColor: colors[262626],
+                        }]}>
                         <Text
                             style={[
                                 Pretendard.Regular,
                                 {
                                     fontSize: 16,
-                                    color: colors[666666],
                                 },
+                                registerForm.phoneNumber.length > 0 ? {
+                                    color: colors[262626]
+                                } : {
+                                    color: colors[666666],
+                                }
                             ]}
                         >인증번호 보내기</Text>
                     </TouchableOpacity>
                     <View style={{ flexDirection: 'row', marginTop: 10, }}>
                         <TextInput
+                            onChangeText={(text) => onNickNameTextChange(text)}
                             style={{
                                 backgroundColor: colors['141414'],
                                 color: colors.FFFFFF,
@@ -153,27 +217,36 @@ const Register = ({
                             placeholderTextColor={colors['666666']}
                         />
                         <TouchableOpacity
-                            style={{
-                                backgroundColor: colors[262626],
+                            disabled={registerForm.nickName.length > 0 ? false : true}
+                            style={[{
                                 paddingHorizontal: 14,
                                 height: 48,
                                 justifyContent: 'center',
                                 alignItems: 'center'
-                            }}>
+                            },
+                            registerForm.nickName.length > 0 ? {
+                                backgroundColor: colors.FFFFFF
+                            } : {
+                                backgroundColor: colors[262626],
+                            }]}>
                             <Text
                                 style={[
                                     Pretendard.Regular,
                                     {
                                         fontSize: 16,
-                                        color: colors[666666],
                                     },
+                                    registerForm.nickName.length > 0 ? {
+                                        color: colors[262626]
+                                    } : {
+                                        color: colors[666666],
+                                    }
                                 ]}
                             >중복확인</Text>
                         </TouchableOpacity>
                     </View>
                     {/* 성명 */}
                     <TextInput
-                        // onChangeText={onEmailTextChanged}
+                        onChangeText={(text) => onNameTextChange(text)}
                         style={{
                             marginTop: 10,
                             backgroundColor: colors['141414'],
@@ -187,7 +260,7 @@ const Register = ({
                     />
                     {/* 생년월일 */}
                     <TextInput
-                        // onChangeText={onEmailTextChanged}
+                        onChangeText={(text) => onBirthTextChange(text)}
                         style={{
                             marginTop: 10,
                             backgroundColor: colors['141414'],
@@ -201,23 +274,34 @@ const Register = ({
                     />
                     <TouchableOpacity
                         onPress={onEmailAuthenticationPressed}
-                        style={{
+                        style={[{
                             marginTop: 10,
-                            backgroundColor: colors[262626],
                             paddingHorizontal: 14,
                             height: 48,
                             justifyContent: 'center',
                             alignItems: 'center'
-                        }}>
+                        },
+                        checkCompletedRegisterForm() ? {
+                           backgroundColor: colors.FFFFFF
+                        } : {
+                            backgroundColor: colors[262626],
+                        }]}>
                         <Text
                             style={[
                                 Pretendard.Regular,
                                 {
                                     fontSize: 16,
-                                    color: colors[666666],
                                 },
-                            ]}
-                        >가입에 필요한 정보를 입력해주세요!</Text>
+                                ,
+                                checkCompletedRegisterForm() ? {
+                                    color: colors[262626]
+                                } : {
+                                    color: colors[666666],
+                                }]}
+                        >
+                            {checkCompletedRegisterForm() ? '가입완료 하기' : '가입에 필요한 정보를 입력해주세요!'}
+
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
@@ -283,11 +367,10 @@ const Register = ({
                                     },
                                 ]}>인증하기</Text>
                             </View>
-
                         </TouchableOpacity>
                     </View>
                 </Modal>
-            </KeyboardAwareScrollView>
+            </KeyboardAwareScrollView >
             <View
                 style={{
                     paddingHorizontal: 20,
@@ -309,7 +392,7 @@ const Register = ({
                     © 2024 X Corp.
                 </Text>
             </View>
-        </View>
+        </View >
     );
 };
 

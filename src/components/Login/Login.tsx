@@ -10,9 +10,15 @@ type Props = {
   onEmailTextChanged: (text: string) => void;
   onPasswordTextChanged: (text: string) => void;
   onRegisterPressed: () => void;
+  onSendPasswordResetPressed: () => void;
 };
 
-const Login = ({onEmailTextChanged, onPasswordTextChanged, onRegisterPressed}: Props) => {
+const Login = ({
+  onEmailTextChanged,
+  onPasswordTextChanged,
+  onRegisterPressed,
+  onSendPasswordResetPressed,
+}: Props) => {
   return (
     <View
       style={{
@@ -133,7 +139,7 @@ const Login = ({onEmailTextChanged, onPasswordTextChanged, onRegisterPressed}: P
             ]}>
             /
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onSendPasswordResetPressed}>
             <Text
               style={[
                 Pretendard.SemiBold,
