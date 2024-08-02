@@ -273,6 +273,7 @@ const Register = ({
                         placeholderTextColor={colors['666666']}
                     />
                     <TouchableOpacity
+                        disabled={!checkCompletedRegisterForm()}
                         onPress={onEmailVerificationPressed}
                         style={[{
                             marginTop: 10,
