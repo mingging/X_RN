@@ -38,11 +38,7 @@ const Register = ({
     onAuthenticatePressed,
     isPressedSendCertificationCode,
     onSendCertificationCodePressed,
-<<<<<<< HEAD
     onEmailVerificationPressed,
-=======
-    onEmailAuthenticationPressed,
->>>>>>> f26ad22 (feat: 회원가입 기능 구현)
     onCertificationCodeChanged,
 
     isShowCountryCodeModal,
@@ -277,11 +273,7 @@ const Register = ({
                         placeholderTextColor={colors['666666']}
                     />
                     <TouchableOpacity
-<<<<<<< HEAD
                         onPress={onEmailVerificationPressed}
-=======
-                        onPress={onEmailAuthenticationPressed}
->>>>>>> f26ad22 (feat: 회원가입 기능 구현)
                         style={[{
                             marginTop: 10,
                             paddingHorizontal: 14,

@@ -13,7 +13,6 @@ export type RegisterFormType = {
     name: string,
     birth: string
 }
-<<<<<<< HEAD
 
 // 이메일 유효성 검사
 export const isValidEmail = (email: string): boolean => {
@@ -161,7 +160,7 @@ const RegisterContainer = () => {
     }, [registerForm])
 
     // 입력한 내용 세이브
-    const onEmailAuthenticationPressed = useCallback(() => {
+    const onEmailVerificationPressed = useCallback(() => {
         console.log('registerForm', registerForm);
 
         // 이메일 인증
