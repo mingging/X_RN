@@ -8,7 +8,7 @@ import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {CommonStackNavigationTypes} from '@typedef/routes/common.stack.types';
 
-type Props = {};
+type Props = {}; 
 
 const SendPasswordResetContainer = (props: Props) => {
   const navigation = useNavigation<CommonStackNavigationTypes>();
