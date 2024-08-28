@@ -1,10 +1,8 @@
-import React from "react";
-import RegisterComplete from "../RegisterComplete";
+import React from 'react';
+import RegisterComplete from '../RegisterComplete';
 
 const RegisterCompleteContainer = () => {
-    return (
-        <RegisterComplete />
-    )
-}
+  return <RegisterComplete />;
+};
 
 export default RegisterCompleteContainer;
