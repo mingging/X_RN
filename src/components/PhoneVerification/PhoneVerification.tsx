@@ -7,6 +7,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CertificationCodeModalContainer from './containers/CertificationCodeModalContainer';
 
 type Props = {
+  certificationCodeError: boolean;
   phoneNumber: string;
 
   isPressedSendCertificationCode: boolean;
@@ -23,6 +24,7 @@ type Props = {
 };
 
 const PhoneVerification = ({
+  certificationCodeError,
   phoneNumber,
 
   onAuthenticatePressed,
@@ -152,6 +154,7 @@ const PhoneVerification = ({
           </TouchableOpacity>
         </View>
         <CertificationCodeModalContainer
+          certificationCodeError={certificationCodeError}
           isPressedSendCertificationCode={isPressedSendCertificationCode}
           onSendCertificationCodePressed={onSendCertificationCodePressed}
           onCertificationCodeChanged={onCertificationCodeChanged}

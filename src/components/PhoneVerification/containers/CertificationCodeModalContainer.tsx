@@ -2,6 +2,7 @@ import React from 'react';
 import CertificationCodeModal from '../components/CertificationCodeModal';
 
 type Props = {
+  certificationCodeError: boolean;
   isPressedSendCertificationCode: boolean;
   onSendCertificationCodePressed: () => void;
   onCertificationCodeChanged: (code: string) => void;
@@ -9,6 +10,7 @@ type Props = {
 };
 
 const CertificationCodeModalContainer = ({
+  certificationCodeError,
   isPressedSendCertificationCode,
   onSendCertificationCodePressed,
   onCertificationCodeChanged,
@@ -16,6 +18,7 @@ const CertificationCodeModalContainer = ({
 }: Props) => {
   return (
     <CertificationCodeModal
+      certificationCodeError={certificationCodeError}
       isPressedSendCertificationCode={isPressedSendCertificationCode}
       onSendCertificationCodePressed={onSendCertificationCodePressed}
       onCertificationCodeChanged={onCertificationCodeChanged}

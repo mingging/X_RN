@@ -6,6 +6,7 @@ import CertificationCodePadContainer from '../containers/CertificationCodeContai
 import Modal from 'react-native-modal';
 
 type Props = {
+  certificationCodeError: boolean;
   isPressedSendCertificationCode: boolean;
   onSendCertificationCodePressed: () => void;
   onCertificationCodeChanged: (code: string) => void;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 const CertificationCodeModal = ({
+  certificationCodeError,
   isPressedSendCertificationCode,
   onSendCertificationCodePressed,
   onCertificationCodeChanged,
@@ -69,6 +71,20 @@ const CertificationCodeModal = ({
             </Text>
           </View>
         </TouchableOpacity>
+        {certificationCodeError && (
+          <Text
+            style={[
+              Pretendard.Regular,
+              {
+                color: colors['FA3A3A'],
+                fontSize: 14,
+                textAlign: 'center',
+                marginTop: 10,
+              },
+            ]}>
+            인증번호가 일치하지 않습니다.
+          </Text>
+        )}
       </View>
     </Modal>
   );

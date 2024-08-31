@@ -1,12 +1,17 @@
 import React, {useCallback, useState} from 'react';
 import PhoneVerification from '../PhoneVerification';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {useNavigation} from '@react-navigation/native';
+import {CommonStackNavigationTypes} from '@typedef/routes/common.stack.types';
 
 // 인증번호 -> 이메일 인증 나누고 linkWithCredential 이용해서 합치기
 const PhoneVerificationContainer = () => {
+  const navigation = useNavigation<CommonStackNavigationTypes>();
+
   const [isPressedSendCertificationCode, setIsPressedSendCertificationCode] =
     useState(false);
   const [certificationCode, setCertificationCode] = useState('');
+  const [certificationCodeError, setCertificationCodeError] = useState(false);
   const [isShowCountryCodeModal, setIsShowCountryCodeModal] = useState(false);
   const [selectedCountryCode, setSelectedCountryCode] = useState('+82');
 
@@ -31,22 +36,28 @@ const PhoneVerificationContainer = () => {
 
   const onCertificationCode = useCallback(async () => {
     try {
-      console.log(confirm);
+      console.log(certificationCode);
       if (confirm) {
         const credential = auth.PhoneAuthProvider.credential(
           confirm,
           certificationCode,
         );
         await auth().signInWithCredential(credential);
+
         console.log('전화번호 인증 성공');
+        setCertificationCodeError(false);
+        setIsPressedSendCertificationCode(false);
+
+        navigation.navigate('register');
       }
     } catch (error) {
+      // 인증 실패
+      setCertificationCodeError(true);
       console.log(error);
     }
-  }, [confirm]);
+  }, [confirm, certificationCode]);
 
   const onAuthenticatePressed = useCallback(() => {
-    setIsPressedSendCertificationCode(false);
     // 인증코드 입력
     onCertificationCode();
   }, [certificationCode]);
@@ -86,6 +97,7 @@ const PhoneVerificationContainer = () => {
   return (
     <PhoneVerification
       phoneNumber={phoneNumber}
+      certificationCodeError={certificationCodeError}
       isPressedSendCertificationCode={isPressedSendCertificationCode}
       onAuthenticatePressed={onAuthenticatePressed}
       onSendCertificationCodePressed={onSendCertificationCodePressed}
