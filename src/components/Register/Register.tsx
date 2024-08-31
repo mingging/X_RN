@@ -9,26 +9,16 @@ import {
 } from 'react-native-gesture-handler';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
-import CertificationCodePad from './components/CertificationCodePad';
-import CertificationCodePadContainer from './containers/CertificationCodeContainer';
-import CountryCodeModalContainer from './containers/CountryCodeModalContainer';
+import CertificationCodePad from '../PhoneVerification/components/CertificationCodePad';
+import CertificationCodePadContainer from '../PhoneVerification/containers/CertificationCodeContainer';
+import CountryCodeModalContainer from '../PhoneVerification/containers/CountryCodeModalContainer';
 import {RegisterFormType} from './containers/RegisterContainer';
 
 type Props = {
-  isPressedSendCertificationCode: boolean;
-  onSendCertificationCodePressed: () => void;
   onEmailVerificationPressed: () => void;
-  onCertificationCodeChanged: (code: string) => void;
-  onAuthenticatePressed: () => void;
-
-  isShowCountryCodeModal: boolean;
-  onShowCountryModal: () => void;
-  onSelectedCountryCode: (code: string) => void;
-  selectedCountryCode: string;
 
   onEmailTextChange: (text: string) => void;
   onPasswordTextChange: (text: string) => void;
-  onPhoneNumberTextChange: (text: string) => void;
   onNickNameTextChange: (text: string) => void;
   onNameTextChange: (text: string) => void;
   onBirthTextChange: (text: string) => void;
@@ -38,20 +28,9 @@ type Props = {
 };
 
 const Register = ({
-  onAuthenticatePressed,
-  isPressedSendCertificationCode,
-  onSendCertificationCodePressed,
   onEmailVerificationPressed,
-  onCertificationCodeChanged,
-
-  isShowCountryCodeModal,
-  onShowCountryModal,
-  onSelectedCountryCode,
-  selectedCountryCode,
-
   onEmailTextChange,
   onPasswordTextChange,
-  onPhoneNumberTextChange,
   onNickNameTextChange,
   onNameTextChange,
   onBirthTextChange,
@@ -129,89 +108,7 @@ const Register = ({
             autoCapitalize="none"
             secureTextEntry={true}
           />
-          <View style={{flexDirection: 'row', marginTop: 10}}>
-            <TouchableOpacity onPress={onShowCountryModal}>
-              <View
-                style={{
-                  backgroundColor: colors['141414'],
-                  paddingHorizontal: 25,
-                  height: 48,
-                  marginRight: 10,
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={[
-                    Pretendard.Regular,
-                    {
-                      fontSize: 18,
-                      color: colors.FFFFFF,
-                      lineHeight: 24,
-                    },
-                  ]}>
-                  {selectedCountryCode}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            {/* 국가코드 */}
-            <CountryCodeModalContainer
-              isShowCountryCodeModal={isShowCountryCodeModal}
-              onShowCountryModal={onShowCountryModal}
-              onSelectedCountryCode={onSelectedCountryCode}
-            />
-            {/* 휴대폰 번호 */}
-            <TextInput
-              onChangeText={text => onPhoneNumberTextChange(text)}
-              style={{
-                backgroundColor: colors['141414'],
-                color: colors.FFFFFF,
-                paddingHorizontal: 14,
-                height: 48,
-                flex: 2,
-              }}
-              placeholder="휴대폰 번호"
-              keyboardType="phone-pad"
-              placeholderTextColor={colors['666666']}
-            />
-          </View>
-          <TouchableOpacity
-            onPress={onSendCertificationCodePressed}
-            disabled={registerForm.phoneNumber.length > 0 ? false : true}
-            style={[
-              {
-                marginTop: 10,
-                backgroundColor: colors[262626],
-                paddingHorizontal: 14,
-                height: 48,
-                justifyContent: 'center',
-                alignItems: 'center',
-              },
-              registerForm.phoneNumber.length > 0
-                ? {
-                    backgroundColor: colors.FFFFFF,
-                  }
-                : {
-                    backgroundColor: colors[262626],
-                  },
-            ]}>
-            <Text
-              style={[
-                Pretendard.Regular,
-                {
-                  fontSize: 16,
-                },
-                registerForm.phoneNumber.length > 0
-                  ? {
-                      color: colors[262626],
-                    }
-                  : {
-                      color: colors[666666],
-                    },
-              ]}>
-              인증번호 보내기
-            </Text>
-          </TouchableOpacity>
+
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <TextInput
               onChangeText={text => onNickNameTextChange(text)}
@@ -351,59 +248,6 @@ const Register = ({
             </Text>
           </TouchableOpacity>
         </View>
-        <Modal
-          isVisible={isPressedSendCertificationCode}
-          onSwipeComplete={onSendCertificationCodePressed}
-          swipeDirection={['down']}
-          style={{
-            justifyContent: 'flex-end',
-            margin: 0,
-          }}>
-          <View
-            style={{
-              backgroundColor: colors['111111'],
-              padding: 20,
-              height: 296,
-            }}>
-            <Text
-              style={[
-                Pretendard.SemiBold,
-                {
-                  fontSize: 18,
-                  color: colors.FFFFFF,
-                  marginBottom: 30,
-                },
-              ]}>
-              인증코드를 입력해주세요
-            </Text>
-            <CertificationCodePadContainer
-              onCertificationCodeChanged={onCertificationCodeChanged}
-            />
-            <Button title="인증하기" onPress={onAuthenticatePressed} />
-            <TouchableOpacity onPress={onAuthenticatePressed}>
-              <View
-                style={{
-                  marginTop: 30,
-                  backgroundColor: colors.FFFFFF,
-                  paddingHorizontal: 14,
-                  height: 48,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={[
-                    Pretendard.SemiBold,
-                    {
-                      fontSize: 16,
-                      color: colors[262626],
-                    },
-                  ]}>
-                  인증하기
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </Modal>
       </KeyboardAwareScrollView>
       <View
         style={{

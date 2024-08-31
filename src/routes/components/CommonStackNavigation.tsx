@@ -8,12 +8,13 @@ import RegisterContainer from '@components/Register/containers/RegisterContainer
 import SendPasswordResetContainer from '@components/SendPasswordReset/containers/SendPasswordResetContainer';
 import SendPasswordResetCompleteContainer from '@components/SendPasswordResetComplete/containers/SendPasswordResetCompleteContainer';
 
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import { CommonStackParamsListTypes } from '@typedef/routes/common.stack.types';
+import {CommonStackParamsListTypes} from '@typedef/routes/common.stack.types';
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, Appearance } from 'react-native';
+import {View, Text, TouchableOpacity, Image, Appearance} from 'react-native';
+import PhoneVerificationContainer from '@components/PhoneVerification/containers/PhoneVerificationContainer';
 
 const Stack = createNativeStackNavigator<CommonStackParamsListTypes>();
 
@@ -21,7 +22,7 @@ type Props = {
   // cartCount: number;
 };
 
-const CommonStackNavigation = ({ }: Props) => {
+const CommonStackNavigation = ({}: Props) => {
   return (
     <View
       style={{
@@ -30,7 +31,7 @@ const CommonStackNavigation = ({ }: Props) => {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="login"
-          screenOptions={({ navigation }) => ({
+          screenOptions={({navigation}) => ({
             contentStyle: {
               backgroundColor: colors['000000'],
             },
@@ -69,6 +70,15 @@ const CommonStackNavigation = ({ }: Props) => {
               headerLeft: undefined,
               title: '',
               headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="phoneVerification"
+            component={PhoneVerificationContainer}
+            options={{
+              // headerLeft: undefined,
+              title: '회원가입',
+              // headerShown: false,
             }}
           />
           <Stack.Screen

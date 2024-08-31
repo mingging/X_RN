@@ -6,6 +6,7 @@ type Props = {
   onCertificationCodeChanged: (code: string) => void;
 };
 
+
 const CertificationCodePadContainer = ({onCertificationCodeChanged}: Props) => {
   const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
   const inputs = useRef<(TextInput | null)[]>([]).current;

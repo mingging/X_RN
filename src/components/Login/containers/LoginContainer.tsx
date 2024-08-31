@@ -21,7 +21,7 @@ const LoginContainer = (props: Props) => {
   }, []);
 
   const onRegisterPressed = useCallback(() => {
-    navigation.navigate('register');
+    navigation.navigate('phoneVerification');
   }, [navigation]);
 
   // 비밀번호 재설정 화면으로 이동
