@@ -12,8 +12,7 @@ const PhoneVerificationContainer = () => {
 
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const [confirm, setConfirm] =
-    useState<FirebaseAuthTypes.ConfirmationResult>();
+  const [confirm, setConfirm] = useState<string | null>(null);
 
   // 전화번호 입력 시
   const onPhoneNumberTextChange = useCallback(
@@ -26,17 +25,20 @@ const PhoneVerificationContainer = () => {
   const onCertificationCodeChanged = useCallback(
     (code: string) => {
       setCertificationCode(code);
-
-      // 인증코드 입력
-      onCertificationCode();
     },
     [certificationCode],
   );
 
   const onCertificationCode = useCallback(async () => {
     try {
+      console.log(confirm);
       if (confirm) {
-        await confirm.confirm(certificationCode);
+        const credential = auth.PhoneAuthProvider.credential(
+          confirm,
+          certificationCode,
+        );
+        await auth().signInWithCredential(credential);
+        console.log('전화번호 인증 성공');
       }
     } catch (error) {
       console.log(error);
@@ -45,14 +47,15 @@ const PhoneVerificationContainer = () => {
 
   const onAuthenticatePressed = useCallback(() => {
     setIsPressedSendCertificationCode(false);
+    // 인증코드 입력
+    onCertificationCode();
   }, [certificationCode]);
 
   const onSendCertificationCodePressed = useCallback(() => {
     setIsPressedSendCertificationCode(!isPressedSendCertificationCode);
-
     // 인증 코드 전송
     onSendCertificationCode();
-  }, [isPressedSendCertificationCode]);
+  }, [isPressedSendCertificationCode, phoneNumber]);
 
   // 국가 코드 모달 오픈
   const onShowCountryModal = useCallback(() => {
@@ -69,10 +72,12 @@ const PhoneVerificationContainer = () => {
 
   const onSendCertificationCode = useCallback(async () => {
     try {
+      console.log(selectedCountryCode, phoneNumber);
       const confirmation = await auth().signInWithPhoneNumber(
-        `${selectedCountryCode} ${phoneNumber}`,
+        `${selectedCountryCode}${phoneNumber}`,
       );
-      // setConfirm(confirmation);
+      console.log(confirmation.verificationId);
+      setConfirm(confirmation.verificationId);
     } catch (error) {
       console.log(error);
     }
