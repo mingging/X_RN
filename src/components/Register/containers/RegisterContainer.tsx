@@ -2,7 +2,7 @@ import React, {useState, useCallback} from 'react';
 import Register from '../Register';
 import {useNavigation} from '@react-navigation/native';
 import {CommonStackNavigationTypes} from '@typedef/routes/common.stack.types';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth, {FirebaseAuthTypes, firebase} from '@react-native-firebase/auth';
 
 export type RegisterFormType = {
   email: string;
@@ -105,18 +105,39 @@ const RegisterContainer = () => {
     // 이메일 인증
     registerUser(registerForm);
 
-    // navigation.navigate('email');
+    navigation.navigate('emailVerification', {
+      data: {
+        email: registerForm.email,
+        password: registerForm.password,
+      },
+    });
   }, [navigation, registerForm]);
 
   const registerUser = useCallback(
     async (registerForm: RegisterFormType) => {
       try {
-        const userCredential = await auth().createUserWithEmailAndPassword(
+        const provider = firebase.auth.EmailAuthProvider;
+        const emailCredential = provider.credential(
           registerForm.email,
           registerForm.password,
         );
+        // const userCredential = await auth().createUserWithEmailAndPassword(
+        //   registerForm.email,
+        //   registerForm.password,
+        // );
+        const userCredential = await auth()
+          .currentUser?.linkWithCredential(emailCredential)
+          .then(usercred => {
+            const user = usercred.user;
+            console.log('user: ', user);
+            return user;
+          })
+          .catch(error => {
+            console.log('Account linking error', error);
+            return null;
+          });
         await sendEmailVerification();
-        return userCredential.user;
+        return userCredential;
       } catch (error) {
         console.log(error);
         return error;
@@ -142,31 +163,26 @@ const RegisterContainer = () => {
   const checkCompletedRegisterForm = useCallback((): boolean => {
     // 이메일 체크
     if (registerForm.email === '') {
-      console.log('email false');
       return false;
     }
 
     // 비밀번호 체크
     if (registerForm.password === '') {
-      console.log('password false');
       return false;
     }
 
     // 닉네임 체크
     if (registerForm.nickName === '') {
-      console.log('nickName false');
       return false;
     }
 
     // 성명 체크
     if (registerForm.name === '') {
-      console.log('name false');
       return false;
     }
 
     // 생년월일 체크
     if (registerForm.birth === '') {
-      console.log('birth false');
       return false;
     }
 
