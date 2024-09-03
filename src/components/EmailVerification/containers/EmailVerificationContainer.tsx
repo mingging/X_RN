@@ -6,6 +6,7 @@ import {
 } from '@typedef/routes/common.stack.types';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
+import {Alert} from 'react-native';
 
 const EmailVerificationContainer = ({
   route: {
@@ -34,15 +35,21 @@ const EmailVerificationContainer = ({
 
   const onCompletedEmailVerificationPressed = useCallback(async () => {
     try {
-      const user = await signInWithEmailAndPassword(email, password);
-      if (user && !user.emailVerified) {
-        console.log('이메일 인증을 완료해주세요.');
-      } else {
-        console.log('성공');
-        navigation.navigate('registerComplete');
+      // const user = await signInWithEmailAndPassword(email, password);
+      // console.log(user);
+      const user = auth().currentUser;
+      if (user) {
+        await user.reload(); // 사용자 정보를 새로고침
+        console.log(user);
+        if (user.emailVerified) {
+          console.log('성공');
+          navigation.navigate('registerComplete');
+        } else {
+          Alert.alert('이메일 인증을 완료해주세요.');
+        }
       }
     } catch (error) {
-      console.log('실패');
+      Alert.alert('이메일 인증에 실패했습니다. 다시 시도해주세요.');
     }
   }, []);
 
