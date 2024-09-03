@@ -37,11 +37,13 @@ const PhoneVerificationContainer = () => {
   const onCertificationCode = useCallback(async () => {
     try {
       console.log(certificationCode);
+
       if (confirm) {
         const credential = auth.PhoneAuthProvider.credential(
           confirm,
           certificationCode,
         );
+
         await auth().signInWithCredential(credential);
 
         console.log('전화번호 인증 성공');
@@ -83,7 +85,11 @@ const PhoneVerificationContainer = () => {
 
   const onSendCertificationCode = useCallback(async () => {
     try {
-      console.log(selectedCountryCode, phoneNumber);
+      // 국가코드가 82 이고, 맨 앞자리가 0일 때 제거
+      if (selectedCountryCode === '+82' && phoneNumber.startsWith('0')) {
+        setPhoneNumber(phoneNumber.substring(1));
+      }
+
       const confirmation = await auth().signInWithPhoneNumber(
         `${selectedCountryCode}${phoneNumber}`,
       );

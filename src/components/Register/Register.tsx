@@ -1,7 +1,7 @@
 import colors from '@assets/colors';
 import Pretendard from '@assets/fonts';
 import React, {useCallback, useRef, useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import {View, Text, TextInput, Button, StyleSheet, Image} from 'react-native';
 import {hasNotch} from 'react-native-device-info';
 import {
   TouchableOpacity,
@@ -25,6 +25,7 @@ type Props = {
 
   checkCompletedRegisterForm: () => boolean;
   registerForm: RegisterFormType;
+  isValidForm: {email: boolean; password: boolean; nickName: boolean};
 };
 
 const Register = ({
@@ -37,6 +38,7 @@ const Register = ({
 
   checkCompletedRegisterForm,
   registerForm,
+  isValidForm,
 }: Props) => {
   return (
     <View style={{flex: 1}}>
@@ -78,36 +80,68 @@ const Register = ({
         </View>
         <View>
           {/* 이메일 */}
-          <TextInput
-            onChangeText={onEmailTextChange}
-            style={{
-              marginTop: 20,
-              backgroundColor: colors['141414'],
-              color: colors.FFFFFF,
-              paddingHorizontal: 14,
-              height: 48,
-            }}
-            placeholder="이메일"
-            keyboardType="email-address"
-            placeholderTextColor={colors['666666']}
-            autoCapitalize="none"
-          />
+          <View>
+            <TextInput
+              onChangeText={onEmailTextChange}
+              style={{
+                marginTop: 20,
+                backgroundColor: colors['141414'],
+                color: colors.FFFFFF,
+                paddingHorizontal: 14,
+                height: 48,
+              }}
+              placeholder="이메일"
+              keyboardType="email-address"
+              placeholderTextColor={colors['666666']}
+              autoCapitalize="none"
+            />
+            {registerForm.email.length > 0 && (
+              <Image
+                style={{
+                  position: 'absolute',
+                  right: 10,
+                  top: 32,
+                }}
+                source={
+                  isValidForm.email
+                    ? require('@assets/images/icons/ic-check-circle.png')
+                    : require('@assets/images/icons/ic-close-circle.png')
+                }
+              />
+            )}
+          </View>
           {/* 비밀번호 */}
-          <TextInput
-            onChangeText={onPasswordTextChange}
-            style={{
-              marginTop: 10,
-              backgroundColor: colors['141414'],
-              color: colors.FFFFFF,
-              paddingHorizontal: 14,
-              height: 48,
-            }}
-            placeholder="비밀번호"
-            keyboardType="email-address"
-            placeholderTextColor={colors['666666']}
-            autoCapitalize="none"
-            secureTextEntry={true}
-          />
+          <View>
+            <TextInput
+              onChangeText={onPasswordTextChange}
+              style={{
+                marginTop: 10,
+                backgroundColor: colors['141414'],
+                color: colors.FFFFFF,
+                paddingHorizontal: 14,
+                height: 48,
+              }}
+              placeholder="비밀번호(특수문자 포함 8자리 이상)"
+              keyboardType="email-address"
+              placeholderTextColor={colors['666666']}
+              autoCapitalize="none"
+              secureTextEntry={true}
+            />
+            {registerForm.password.length > 0 && (
+              <Image
+                style={{
+                  position: 'absolute',
+                  right: 10,
+                  top: 24,
+                }}
+                source={
+                  isValidForm.password
+                    ? require('@assets/images/icons/ic-check-circle.png')
+                    : require('@assets/images/icons/ic-close-circle.png')
+                }
+              />
+            )}
+          </View>
 
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <TextInput

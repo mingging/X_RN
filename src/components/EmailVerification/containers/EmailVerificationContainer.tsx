@@ -4,7 +4,7 @@ import {
   CommonStackNavigationTypes,
   EmailVerificationStackParamTypes,
 } from '@typedef/routes/common.stack.types';
-import auth, {FirebaseAuthTypes, firebase} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 
 const EmailVerificationContainer = ({

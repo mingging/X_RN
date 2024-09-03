@@ -20,8 +20,10 @@ export const isValidEmail = (email: string): boolean => {
 
 // 비밀번호 유효성 검사
 export const isValidPassword = (password: string): boolean => {
-  // 비밀번호가 6자 이상인지 확인합니다.
-  return password.length >= 6;
+  // 최소 8자리, 하나 이상의 특수문자 포함
+  const regex =
+    /^(?=.*[!@#$%^&*(),.?":{}|<>_])[A-Za-z\d!@#$%^&*(),.?":{}|<>_]{8,}$/;
+  return regex.test(password);
 };
 
 const RegisterContainer = () => {
@@ -36,6 +38,12 @@ const RegisterContainer = () => {
     birth: '',
   });
 
+  const [isValidForm, setIsValidForm] = useState({
+    email: false,
+    password: false,
+    nickName: false,
+  });
+
   // 행동을 직역으로 표시
   // true 인 걸 모르기 때문에 변수가 바뀌는 지 모른다.
   // useCallback 은 dependency 가 중요하다
@@ -48,22 +56,36 @@ const RegisterContainer = () => {
   // 이메일 입력 시
   const onEmailTextChange = useCallback(
     (text: string) => {
+      const validEmail = isValidEmail(text);
+
+      setIsValidForm(prevState => ({
+        ...prevState,
+        email: validEmail ? true : false,
+      }));
+
       setRegisterForm(prevState => ({
         ...prevState,
-        email: isValidEmail(text) ? text : '',
+        email: text,
       }));
     },
-    [registerForm.email],
+    [registerForm.email, isValidForm.email],
   );
 
   const onPasswordTextChange = useCallback(
     (text: string) => {
+      const validPassword = isValidPassword(text);
+
+      setIsValidForm(prevState => ({
+        ...prevState,
+        password: validPassword ? true : false,
+      }));
+
       setRegisterForm(prevState => ({
         ...prevState,
-        password: isValidPassword(text) ? text : '',
+        password: text,
       }));
     },
-    [registerForm.password],
+    [registerForm.password, isValidForm.password],
   );
   // 닉네임 입력
   const onNickNameTextChange = useCallback(
@@ -162,12 +184,12 @@ const RegisterContainer = () => {
   // 모든 정보 입력 완료했는지 체크
   const checkCompletedRegisterForm = useCallback((): boolean => {
     // 이메일 체크
-    if (registerForm.email === '') {
+    if (registerForm.email === '' || !isValidForm.email) {
       return false;
     }
 
     // 비밀번호 체크
-    if (registerForm.password === '') {
+    if (registerForm.password === '' || !isValidForm.password) {
       return false;
     }
 
@@ -187,7 +209,7 @@ const RegisterContainer = () => {
     }
 
     return true;
-  }, [registerForm]);
+  }, [registerForm, isValidForm]);
 
   return (
     <Register
@@ -199,6 +221,7 @@ const RegisterContainer = () => {
       onBirthTextChange={onBirthTextChange}
       checkCompletedRegisterForm={checkCompletedRegisterForm}
       registerForm={registerForm}
+      isValidForm={isValidForm}
     />
   );
 };
